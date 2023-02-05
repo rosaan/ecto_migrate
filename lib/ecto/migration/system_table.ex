@@ -1,43 +1,59 @@
 defmodule Ecto.Migration.SystemTable.Index.Migration do
   use Ecto.Migration
+
   def up do
     create table(:ecto_auto_migration_index) do
-      add :tablename, :string
-      add :index, :string
-      add :name, :string
-      add :concurrently, :string
-      add :unique, :boolean
-      add :using, :string
+      add(:tablename, :string)
+      add(:index, :string)
+      add(:name, :string)
+      add(:concurrently, :string)
+      add(:unique, :boolean)
+      add(:using, :string)
     end
   end
 end
 
 defmodule Ecto.Migration.SystemTable.Index do
   use Ecto.Schema
+  import Ecto.Changeset
+
   @primary_key {:tablename, :string, []}
   schema "ecto_auto_migration_index" do
-    field :index, :string
-    field :name, :string
-    field :concurrently, :boolean
-    field :unique, :boolean
-    field :using, :string
+    field(:index, :string)
+    field(:name, :string)
+    field(:concurrently, :boolean)
+    field(:unique, :boolean)
+    field(:using, :string)
+  end
+
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:index, :name, :concurrently, :unique, :using])
   end
 end
 
 defmodule Ecto.Migration.SystemTable.Migration do
   use Ecto.Migration
+
   def up do
     create table(:ecto_auto_migration) do
-      add :tablename, :string
-      add :metainfo, :string, size: 2040
+      add(:tablename, :string)
+      add(:metainfo, :string, size: 2040)
     end
   end
 end
 
 defmodule Ecto.Migration.SystemTable do
   use Ecto.Schema
+  import Ecto.Changeset
+
   @primary_key {:tablename, :string, []}
   schema "ecto_auto_migration" do
-    field :metainfo, :string
+    field(:metainfo, :string)
+  end
+
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:metainfo])
   end
 end
